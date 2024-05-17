@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('years_validity')->nullable()->comment('Validade das marcas em anos');
             $table->string('cnpj')->nullable()->comment('CNPJ do órgão');
             $table->string('city')->nullable()->comment('Nome do município');
-            $table->varchar('state', 2)->nullable()->comment('UF');
+            $table->string('state', 2)->nullable()->comment('UF');
             $table->string('phone')->nullable()->comment('Telefone do órgão');
             $table->string('address')->nullable()->comment('Endereço do órgão');
             $table->date('renewal_deadline')->nullable()->comment('Data limite para renovação das marcas');

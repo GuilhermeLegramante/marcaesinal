@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('farmer_id')->constrained('farmers')->cascadeOnDelete();
             $table->foreignId('signal_type_id')->constrained('signal_types')->cascadeOnDelete();
-            $table->varchar('position', 2)->comment('Posição do sinal D1 - D6 , E1 - E6 : 6 posições possíveis em cada orelha');
+            $table->string('position', 2)->comment('Posição do sinal D1 - D6 , E1 - E6 : 6 posições possíveis em cada orelha');
             $table->text('note')->nullable();
             $table->timestamps();
         });

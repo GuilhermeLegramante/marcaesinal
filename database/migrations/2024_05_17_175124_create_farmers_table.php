@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('whatsapp')->nullable();
             $table->date('birth_date')->nullable();
-            $table->char('gender', 1)->nullable()->comment('Gênero => M ou F');
-            $table->text('note')->nullable();
+            $table->string('gender', 1)->nullable()->comment('Gênero => M ou F');
             $table->foreignId('address_id')->nullable()->constrained('addresses')->cascadeOnDelete();
             $table->text('note')->nullable();
             $table->timestamps();
