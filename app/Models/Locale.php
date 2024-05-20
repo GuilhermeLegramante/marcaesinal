@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Locale extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'latitude',
+        'longitude',
+        'note',
+    ];
 }
