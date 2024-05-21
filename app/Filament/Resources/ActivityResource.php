@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Forms\LocaleForm;
-use App\Filament\Resources\LocaleResource\Pages;
-use App\Filament\Resources\LocaleResource\RelationManagers;
+use App\Filament\Forms\BasicForm;
+use App\Filament\Resources\ActivityResource\Pages;
+use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Filament\Tables\Columns;
-use App\Models\Locale;
+use App\Models\Activity;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,26 +17,27 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class LocaleResource extends Resource
+class ActivityResource extends Resource
 {
-    protected static ?string $model = Locale::class;
+    protected static ?string $model = Activity::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $modelLabel = 'localidade';
+    protected static ?string $modelLabel = 'atividade';
 
-    protected static ?string $pluralModelLabel = 'localidades';
+    protected static ?string $pluralModelLabel = 'atividades';
 
     protected static ?string $navigationGroup = 'Parâmetros';
 
-    protected static ?string $slug = 'localidade';
+    protected static ?string $slug = 'atividade';
+
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(LocaleForm::form());
+            ->schema(BasicForm::form());
     }
 
     public static function table(Table $table): Table
@@ -47,15 +48,8 @@ class LocaleResource extends Resource
                     ->label('Nome')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('latitude')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('longitude')
-                    ->numeric()
-                    ->sortable(),
                 Columns::createdAt(),
                 Columns::updatedAt(),
-
             ])
             ->filters([
                 //
@@ -76,7 +70,7 @@ class LocaleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageLocales::route('/'),
+            'index' => Pages\ManageActivities::route('/'),
         ];
     }
 

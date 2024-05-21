@@ -4,18 +4,18 @@ namespace App\Filament\Resources\FarmerResource\Pages;
 
 use App\Filament\Resources\FarmerResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ManageRecords;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageFarmers extends ManageRecords
+class ListFarmers extends ListRecords
 {
     protected static string $resource = FarmerResource::class;
+
+    protected static ?string $navigationLabel = 'Listar Produtores';
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
-                ->modalWidth(MaxWidth::FiveExtraLarge),
+            Actions\CreateAction::make(),
         ];
     }
 }

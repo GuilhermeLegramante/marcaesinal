@@ -92,7 +92,9 @@ class FarmerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageFarmers::route('/'),
+            'index' => Pages\ListFarmers::route('/'),
+            'create' => Pages\CreateFarmer::route('/criar'),
+            'edit' => Pages\EditFarmer::route('/{record}/editar'),
         ];
     }
 }
