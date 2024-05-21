@@ -19,6 +19,7 @@ class FarmerForm
                 ->description(
                     fn (string $operation): string => $operation === 'create' || $operation === 'edit' ? 'Informe os campos solicitados' : ''
                 )
+                ->collapsible()
                 ->schema([
                     Document::make('cpf_cnpj')
                         ->label('CPF ou CNPJ')

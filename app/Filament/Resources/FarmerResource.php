@@ -97,4 +97,11 @@ class FarmerResource extends Resource
             'edit' => Pages\EditFarmer::route('/{record}/editar'),
         ];
     }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\PropertiesRelationManager::class,
+        ];
+    }
 }
