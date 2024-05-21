@@ -9,7 +9,7 @@ class CreateFarmer extends CreateRecord
 {
     protected static string $resource = FarmerResource::class;
 
-    protected static ?string $navigationLabel = 'Criar Produtor';
+    protected static ?string $navigationLabel = 'Cadastrar Produtor';
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

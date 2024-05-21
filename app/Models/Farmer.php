@@ -33,5 +33,10 @@ class Farmer extends Model
         return $this->hasMany(Property::class);
     }
 
+    public function brands(): HasMany
+    {
+        return $this->hasMany(Brand::class);
+    }
+
    
 }

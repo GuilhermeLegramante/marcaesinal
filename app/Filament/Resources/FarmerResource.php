@@ -101,6 +101,7 @@ class FarmerResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationManagers\BrandsRelationManager::class,
             RelationManagers\PropertiesRelationManager::class,
         ];
     }

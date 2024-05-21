@@ -3,6 +3,7 @@
 namespace App\Filament\Forms;
 
 use Dotswan\MapPicker\Fields\Map;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Get;
@@ -14,6 +15,15 @@ class PropertyForm
     {
         return [
             GeneralFields::name(),
+            Select::make('activities')
+                ->label('Atividades')
+                ->live()
+                ->multiple()
+                ->columnSpanFull()
+                ->preload()
+                ->searchable()
+                ->relationship('activities', 'name')
+                ->createOptionForm(BasicForm::form()),
             TextInput::make('latitude')
                 ->numeric(),
             TextInput::make('longitude')

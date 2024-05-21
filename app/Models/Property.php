@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Property extends Model
@@ -19,13 +20,17 @@ class Property extends Model
         'note',
     ];
 
+    protected $casts = [
+        'activities' => 'array',
+    ];
+
     public function farmer(): BelongsTo
     {
         return $this->belongsTo(Farmer::class);
     }
 
-    public function activities(): HasMany
+    public function activities(): BelongsToMany
     {
-        return $this->hasMany(Activity::class);
+        return $this->belongsToMany(Activity::class, 'property_activities');
     }
 }
