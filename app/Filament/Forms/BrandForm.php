@@ -34,6 +34,8 @@ class BrandForm
                         ->numeric(),
                     TextInput::make('year')
                         ->label('Ano')
+                        ->minLength(4)
+                        ->maxValue(date('Y'))
                         ->required()
                         ->numeric(),
                     FileUpload::make('filename')

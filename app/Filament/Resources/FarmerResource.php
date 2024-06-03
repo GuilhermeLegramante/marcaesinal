@@ -105,4 +105,9 @@ class FarmerResource extends Resource
             RelationManagers\PropertiesRelationManager::class,
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 }

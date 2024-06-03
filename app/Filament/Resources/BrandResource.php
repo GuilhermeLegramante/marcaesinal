@@ -62,7 +62,7 @@ class BrandResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RenewalsRelationManager::class,
         ];
     }
 
@@ -73,5 +73,10 @@ class BrandResource extends Resource
             'create' => Pages\CreateBrand::route('/criar'),
             'edit' => Pages\EditBrand::route('/{record}/editar'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

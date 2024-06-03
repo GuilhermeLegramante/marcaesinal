@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->brandName('Contratos Hardsoft')
+            ->brandName('Marca & Sinal')
             ->sidebarCollapsibleOnDesktop()
             ->brandLogo(asset('img/logo.png'))
             ->brandLogoHeight(fn () => auth()->check() ? '3rem' : '6rem')
