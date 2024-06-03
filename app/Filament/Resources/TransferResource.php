@@ -2,47 +2,50 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Forms\BrandForm;
-use App\Filament\Resources\BrandResource\Pages;
-use App\Filament\Resources\BrandResource\RelationManagers;
-use App\Filament\Tables\BrandTable;
+use App\Filament\Forms\TransferForm;
+use App\Filament\Resources\TransferResource\Pages;
+use App\Filament\Resources\TransferResource\RelationManagers;
 use App\Filament\Tables\Columns;
-use App\Models\Brand;
+use App\Filament\Tables\TransferTable;
+use App\Models\Transfer;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BrandResource extends Resource
+class TransferResource extends Resource
 {
-    protected static ?string $model = Brand::class;
+    protected static ?string $model = Transfer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'brand.number';
 
-    protected static ?string $modelLabel = 'marca';
+    protected static ?string $modelLabel = 'transferência';
 
-    protected static ?string $pluralModelLabel = 'marcas';
+    protected static ?string $pluralModelLabel = 'transferências';
 
-    protected static ?string $slug = 'marca';
+    protected static ?string $navigationGroup = 'Parâmetros';
 
+    protected static ?string $slug = 'transferencia';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(BrandForm::form());
+            ->schema(TransferForm::form());
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(BrandTable::table())
+            ->columns(TransferTable::table())
             ->filters([
                 //
             ])
@@ -59,25 +62,20 @@ class BrandResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\RenewalsRelationManager::class,
-            RelationManagers\TransfersRelationManager::class,
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBrands::route('/'),
-            'create' => Pages\CreateBrand::route('/criar'),
-            'edit' => Pages\EditBrand::route('/{record}/editar'),
+            'index' => Pages\ManageTransfers::route('/'),
         ];
     }
 
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources\BrandResource\RelationManagers;
 
-use App\Filament\Forms\RenewalForm;
-use App\Filament\Tables\RenewalTable;
+use App\Filament\Forms\TransferForm;
+use App\Filament\Tables\TransferTable;
 use App\Models\Brand;
-use App\Models\Renewal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -16,44 +15,43 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class RenewalsRelationManager extends RelationManager
+class TransfersRelationManager extends RelationManager
 {
-    protected static string $relationship = 'renewals';
+    protected static string $relationship = 'transfers';
 
-    protected static ?string $title = 'Renovações';
+    protected static ?string $title = 'Transferências';
 
-    protected static ?string $label = 'Renovação';
+    protected static ?string $label = 'Transferência';
 
-    protected static ?string $pluralLabel = 'Renovações';
+    protected static ?string $pluralLabel = 'Transferências';
 
     public function form(Form $form): Form
     {
         return $form
-            ->schema(RenewalForm::form());
+            ->schema(TransferForm::form());
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('number')
-            ->columns(RenewalTable::table())
+            ->recordTitleAttribute('brand_id')
+            ->columns(TransferTable::table())
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $brand = $this->getOwnerRecord();
+                Tables\Actions\CreateAction::make()->mutateFormDataUsing(function (array $data): array {
+                    $brand = $this->getOwnerRecord();
 
-                        Brand::where('id', $brand->id)
-                            ->update([
-                                'number' => $data['number'],
-                                'year' => $data['year']
-                            ]);
+                    Brand::where('id', $brand->id)
+                        ->update([
+                            'farmer_id' => $data['to_id'],
+                        ]);
 
-                        return $data;
-                    })
-                    ->successRedirectUrl(route('filament.admin.resources.marca.index'))
+                    $data['from_id'] = $brand->farmer->id;
+
+                    return $data;
+                })->successRedirectUrl(route('filament.admin.resources.marca.index'))
             ])
             ->actions([
                 ActionGroup::make([

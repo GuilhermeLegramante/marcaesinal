@@ -23,6 +23,7 @@ class FarmerForm
                 ->schema([
                     Document::make('cpf_cnpj')
                         ->label('CPF ou CNPJ')
+                        ->validation(false)
                         ->dynamic(),
                     GeneralFields::name(),
                     GeneralFields::email(),

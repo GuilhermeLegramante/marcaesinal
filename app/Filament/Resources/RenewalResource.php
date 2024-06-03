@@ -9,11 +9,14 @@ use App\Filament\Resources\ClientResource\Pages\ListRenewals;
 use App\Filament\Resources\RenewalResource\Pages;
 use App\Filament\Resources\RenewalResource\Pages\ManageRenewals;
 use App\Filament\Resources\RenewalResource\RelationManagers;
+use App\Filament\Tables\Columns;
 use App\Models\Renewal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -46,33 +49,33 @@ class RenewalResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('brand.id')
+                    ->label('Marca')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('number')
+                    ->label('Número')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('year')
+                    ->label('Ano')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('validity')
+                    ->label('Validade')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Columns::createdAt(),
+                Columns::updatedAt(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

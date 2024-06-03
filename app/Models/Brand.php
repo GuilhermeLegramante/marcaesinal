@@ -32,4 +32,9 @@ class Brand extends Model
     {
         return $this->hasMany(Renewal::class);
     }
+
+    public function transfers(): HasMany
+    {
+        return $this->hasMany(Transfer::class);
+    }
 }
