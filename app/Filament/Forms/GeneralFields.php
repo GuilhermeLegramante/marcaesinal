@@ -12,7 +12,7 @@ class GeneralFields
 {
     public static function note(): Textarea
     {
-        return  Textarea::make('note')
+        return Textarea::make('note')
             ->label('Observação')
             ->maxLength(65535)
             ->columnSpanFull();

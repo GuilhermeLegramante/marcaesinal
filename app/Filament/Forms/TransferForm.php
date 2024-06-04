@@ -23,10 +23,7 @@ class TransferForm
                 ->preload()
                 ->columnSpanFull()
                 ->required(),
-            Textarea::make('note')
-                ->label('Observação')
-                ->maxLength(65535)
-                ->columnSpanFull(),
+            GeneralFields::note(),
         ];
     }
 }
