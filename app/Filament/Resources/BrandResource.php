@@ -42,7 +42,9 @@ class BrandResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(BrandTable::table())
+            ->columns(
+                BrandTable::table()
+                )
             ->filters([
                 //
             ])
@@ -56,6 +58,9 @@ class BrandResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])->contentGrid([
+                'md' => 2,
+                'xl' => 3,
             ]);
     }
 
