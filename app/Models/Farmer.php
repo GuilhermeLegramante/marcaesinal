@@ -38,5 +38,8 @@ class Farmer extends Model
         return $this->hasMany(Brand::class);
     }
 
-   
+    public function signals(): HasMany
+    {
+        return $this->hasMany(Signal::class);
+    }
 }

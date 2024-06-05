@@ -103,6 +103,7 @@ class FarmerResource extends Resource
         return [
             RelationManagers\BrandsRelationManager::class,
             RelationManagers\PropertiesRelationManager::class,
+            RelationManagers\SignalsRelationManager::class,
         ];
     }
 
