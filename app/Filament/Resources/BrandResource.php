@@ -32,7 +32,6 @@ class BrandResource extends Resource
 
     protected static ?string $slug = 'marca';
 
-
     public static function form(Form $form): Form
     {
         return $form
