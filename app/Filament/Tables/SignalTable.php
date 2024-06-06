@@ -10,6 +10,9 @@ class SignalTable
     public static function table(): array
     {
         return [
+            TextColumn::make('farmer.name')
+                ->label('Produtor')
+                ->sortable(),
             ImageColumn::make('signalType.path')
                 ->label('Desenho'),
             TextColumn::make('signalType.name')
