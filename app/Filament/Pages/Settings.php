@@ -6,6 +6,7 @@ use App\Models\Setting;
 use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
@@ -14,6 +15,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Leandrocfe\FilamentPtbrFormFields\Document;
 use Leandrocfe\FilamentPtbrFormFields\PhoneNumber;
+use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 class Settings extends Page
 {
@@ -32,8 +34,6 @@ class Settings extends Page
     protected ?string $subheading = 'Ajuste as definições gerais do sistema';
 
     public ?array $data = [];
-
-
 
     public function mount(): void
     {
@@ -70,6 +70,18 @@ class Settings extends Page
                     ])
                     ->description('Informações Gerais do Órgão')
                     ->schema([
+                        Group::make([
+                            SignaturePad::make('draw')
+                                ->label('Desenho da Marca')
+                                ->live()
+                                ->dotSize(4.0)
+                                ->lineMaxWidth(4.0)
+                                ->lineMinWidth(4.0)
+                                ->backgroundColor('rgb(255,255,255)')
+                                ->backgroundColorOnDark('rgb(255,255,255)')
+                                ->penColor('#000')
+                                ->penColorOnDark('#000')
+                        ])->extraAttributes(['style' => 'width: 200px; height: 200px; ']),
                         TextInput::make('city')
                             ->label('Nome do Município')
                             ->required(),
@@ -145,7 +157,7 @@ class Settings extends Page
     public function submit(): void
     {
         $data = $this->form->getState();
-
+        dd($data);
         try {
             Setting::where('id', '>=', 1)->delete();
 

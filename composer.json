@@ -15,6 +15,7 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "league/flysystem-aws-s3-v3": "^3.28",
         "leandrocfe/filament-ptbr-form-fields": "3.0",
         "livewire/livewire": "^3.4",
         "njxqlus/filament-progressbar": "^1.0",
