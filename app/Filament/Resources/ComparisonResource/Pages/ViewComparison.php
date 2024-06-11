@@ -5,9 +5,9 @@ namespace App\Filament\Resources\ComparisonResource\Pages;
 use App\Filament\Resources\ComparisonResource;
 use App\Utils\ArrayHandler;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditComparison extends EditRecord
+class ViewComparison extends ViewRecord
 {
     protected static string $resource = ComparisonResource::class;
 
@@ -15,14 +15,7 @@ class EditComparison extends EditRecord
 
     public $result;
 
-    public $perPage = 5;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    public $perPage = 30;
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -67,5 +60,10 @@ class EditComparison extends EditRecord
                 array_push($this->images, 'https://comparacao-imagem.hardsoftsfa.com.br/api/public/storage/brands/' . $value['filename']);
             }
         }
+    }
+
+    public function teste($uuid)
+    {
+        $this->dispatch('open-modal', id: 'edit-user');
     }
 }

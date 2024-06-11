@@ -4,11 +4,23 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ComparisonResource\Pages;
 use App\Filament\Resources\ComparisonResource\RelationManagers;
+use App\Filament\Tables\Columns;
+use App\Forms\Components\ComparisonImages;
+use App\Forms\Components\ComparisonImageToForm;
 use App\Models\Comparison;
+use App\Tables\Columns\ComparisonImage;
+use App\Utils\ArrayHandler;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -19,7 +31,7 @@ class ComparisonResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-magnifying-glass';
 
-    protected static ?string $recordTitleAttribute = 'resultado';
+    protected static ?string $recordTitleAttribute = 'id';
 
     protected static ?string $modelLabel = 'busca inteligente';
 
@@ -31,22 +43,18 @@ class ComparisonResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('identificador_do_cliente')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('imagem')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('resultado')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('usuario')
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('progresso')
-                    ->maxLength(100),
-                Forms\Components\Toggle::make('finalizada'),
-                Forms\Components\Toggle::make('geral'),
+                Section::make('Comparação de imagem')
+                    // ->columns([
+                    //     'sm' => 2,
+                    //     'xl' => 2,
+                    //     '2xl' => 2,
+                    // ])
+                    ->description('Detalhes da verificação')
+                    ->schema([
+                        ComparisonImageToForm::make('imagem'),
+                        ComparisonImages::make('Resultado')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 
@@ -54,33 +62,27 @@ class ComparisonResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('identificador_do_cliente')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('usuario')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('progresso')
-                    ->searchable(),
+                ComparisonImage::make('imagem')
+                    ->label('Imagem'),
+                Columns::createdAt(),
                 Tables\Columns\IconColumn::make('finalizada')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('geral')
-                    ->boolean(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+                ActionGroup::make([
+                    Tables\Actions\DeleteAction::make(),
+                ]),
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('identificador_do_cliente', env('CLIENT_IDENTIFIER')));
     }
 
     public static function getRelations(): array
@@ -94,14 +96,15 @@ class ComparisonResource extends Resource
     {
         return [
             'index' => Pages\ListComparisons::route('/'),
-            'create' => Pages\CreateComparison::route('/create'),
-            'edit' => Pages\EditComparison::route('/{record}/edit'),
+            // 'create' => Pages\CreateComparison::route('/create'),
+            // 'edit' => Pages\EditComparison::route('/{record}/edit'),
+            'view' => Pages\ViewComparison::route('/{record}/detalhes'),
         ];
     }
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return static::getModel()::where('identificador_do_cliente', env('CLIENT_IDENTIFIER'))->count();
     }
 
     public static function canCreate(): bool
