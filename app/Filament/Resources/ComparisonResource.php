@@ -73,6 +73,9 @@ class ComparisonResource extends Resource
             ->filters([
                 //
             ])
+            ->recordUrl(
+                fn (Comparison $record) => $record->finalizada ? route('filament.admin.resources.busca-inteligente.view', ['record' => $record]) : null,
+            )
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\DeleteAction::make(),
