@@ -66,6 +66,7 @@ class ComparisonResource extends Resource
                     ->label('Imagem'),
                 Columns::createdAt(),
                 Tables\Columns\IconColumn::make('finalizada')
+                    ->alignCenter()
                     ->boolean(),
             ])
             ->defaultSort('created_at', 'desc')
@@ -82,6 +83,7 @@ class ComparisonResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->poll('3s')
             ->modifyQueryUsing(fn (Builder $query) => $query->where('identificador_do_cliente', env('CLIENT_IDENTIFIER')));
     }
 

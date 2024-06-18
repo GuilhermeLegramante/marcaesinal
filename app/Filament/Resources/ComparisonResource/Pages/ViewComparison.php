@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ComparisonResource\Pages;
 
 use App\Filament\Resources\ComparisonResource;
+use App\Models\BrandGeneral;
 use App\Utils\ArrayHandler;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
@@ -16,6 +17,8 @@ class ViewComparison extends ViewRecord
     public $result;
 
     public $perPage = 30;
+
+    public $brand = [];
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -62,8 +65,19 @@ class ViewComparison extends ViewRecord
         }
     }
 
-    public function teste($uuid)
+    public function teste($path)
     {
-        $this->dispatch('open-modal', id: 'edit-user');
+        $array = explode('/', $path);
+
+        $filename = end($array);
+
+        $search = BrandGeneral::where('path', 'like', '%' . $filename . '%')->get()->first();
+
+        $this->brand['number'] = $search->number;
+        $this->brand['year'] = $search->year;
+        $this->brand['path'] = $search->path;
+        $this->brand['farmer_name'] = $search->farmer_name;
+
+        $this->dispatch('open-modal', id: 'brand-details');
     }
 }

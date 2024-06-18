@@ -85,41 +85,45 @@ class BrandComparison extends Page
             ])->statePath('data');
     }
 
-    public function submit(): void
+    public function submit()
     {
         $data = $this->form->getState();
 
         try {
-            if (isset($data['draw'])) {
-                $uuid = uniqid();
+            $uuid = uniqid();
+            $path = '_python-verification/' . $uuid . '.png';
 
+            if ($data['draw'] != null) {
                 $image_parts = explode(";base64,", $data['draw']);
-                $image_base64 = base64_decode($image_parts[1]);
-
-                $path = '_python-verification/' . $uuid . '.png';
-
-                Storage::disk('s3')->put(
-                    $path,
-                    $image_base64,
-                    'public'
-                );
-
-                $url = Storage::disk('s3')->url($path);
-
-                Http::withHeaders([
-                    'Accept' => 'application/json',
-                ])->post(env('QUEUE_URL'), [
-                    'imagePath' => $url,
-                    'clientCode' => env('CLIENT_IDENTIFIER'),
-                ]);
+                $fileContents = base64_decode($image_parts[1]);
+            } else {
+                $fileContents = file_get_contents(public_path('storage/' . $data['file']));
             }
+
+            Storage::disk('s3')->put(
+                $path,
+                $fileContents,
+                'public'
+            );
+
+            $url = Storage::disk('s3')->url($path);
+
+            Http::withHeaders([
+                'Accept' => 'application/json',
+            ])->post(env('QUEUE_URL'), [
+                'imagePath' => $url,
+                'clientCode' => env('CLIENT_IDENTIFIER'),
+            ]);
 
             Notification::make()
                 ->title('Sucesso!')
                 ->body('Verificação enviada para a análise da inteligência artificial')
                 ->success()
                 ->send();
+
+            return redirect()->route('filament.admin.resources.busca-inteligente.index');
         } catch (Exception $e) {
+            dd($e->getMessage());
             Notification::make()
                 ->title('Erro ao enviar a imagem!')
                 ->body($e->getMessage())

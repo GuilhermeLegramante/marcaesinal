@@ -28,21 +28,21 @@
         </div>
     </div>
 
-    <x-filament::modal id="edit-user" width="md">
+    <x-filament::modal id="brand-details" width="md">
         <x-slot name="heading">
             Detalhes da Marca
         </x-slot>
 
         <div class="flex justify-center items-center h-full">
-            <img src="https://comparacao-imagem.hardsoftsfa.com.br/api/public/storage/brands/e683b070-61e1-11ee-810f-435862018147.png"
-                class="max-w-full h-auto">
+            <img src="{{ isset($this->brand['path']) ? $this->brand['path'] : '' }}" class="max-w-full h-auto">
         </div>
 
         <div class="flex justify-center w-full">
-            <strong>144 / 2024 - Guilherme Legramante Martins</strong>
+            <strong>{{ isset($this->brand['number']) ? $this->brand['number'] : '' }} /
+                {{ isset($this->brand['year']) ? $this->brand['year'] : '' }} -
+                {{ isset($this->brand['farmer_name']) ? $this->brand['farmer_name'] : '' }}</strong>
         </div>
     </x-filament::modal>
-
 </x-dynamic-component>
 
 <style>
