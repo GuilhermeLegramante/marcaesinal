@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Forms\GeneralFields;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Exception;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
@@ -16,6 +17,8 @@ use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 class BrandComparison extends Page
 {
+    use HasPageShield;
+    
     protected static ?string $navigationIcon = 'heroicon-o-document-magnifying-glass';
 
     protected static string $view = 'filament.pages.brand-comparison';

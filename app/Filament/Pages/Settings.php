@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Exception;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
@@ -19,6 +20,8 @@ use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 class Settings extends Page
 {
+    use HasPageShield;
+    
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected static string $view = 'filament.pages.settings';
@@ -70,18 +73,6 @@ class Settings extends Page
                     ])
                     ->description('Informações Gerais do Órgão')
                     ->schema([
-                        Group::make([
-                            SignaturePad::make('draw')
-                                ->label('Desenho da Marca')
-                                ->live()
-                                ->dotSize(4.0)
-                                ->lineMaxWidth(4.0)
-                                ->lineMinWidth(4.0)
-                                ->backgroundColor('rgb(255,255,255)')
-                                ->backgroundColorOnDark('rgb(255,255,255)')
-                                ->penColor('#000')
-                                ->penColorOnDark('#000')
-                        ])->extraAttributes(['style' => 'width: 200px; height: 200px; ']),
                         TextInput::make('city')
                             ->label('Nome do Município')
                             ->required(),

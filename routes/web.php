@@ -14,3 +14,7 @@ Livewire::setUpdateRoute(function ($handle) {
 Route::get('/', function () {
     return redirect(route('filament.admin.pages.dashboard'));
 });
+
+Route::get('/login', function () {
+    return redirect(route('filament.admin.auth.login'));
+})->name('login');

@@ -7,6 +7,8 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -49,10 +51,12 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_admin')
-                    ->label('Administrador')
-                    ->inline(false)
-                    ->required(),
+                Select::make('roles')
+                    ->label('Perfil')
+                    ->multiple()
+                    ->relationship('roles', 'name')
+                    ->preload()
+                    ->searchable(),
                 Forms\Components\TextInput::make('password')
                     ->label('Senha')
                     ->password()
@@ -82,10 +86,6 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('E-mail')
                     ->searchable(),
-                Tables\Columns\ToggleColumn::make('is_admin')
-                    ->label('Administrador')
-                    ->onIcon('heroicon-m-bolt')
-                    ->offIcon('heroicon-m-user'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Criado em')
                     ->dateTime()
