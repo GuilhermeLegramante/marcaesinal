@@ -14,13 +14,11 @@ class ViewComparison extends ViewRecord
 
     public $images = [];
 
-    public $result;
+    private $result;
 
     public $perPage = 30;
 
     public $brand = [];
-
-    public $isLoading = false;
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -69,8 +67,6 @@ class ViewComparison extends ViewRecord
 
     public function showDetails($path)
     {
-        $this->isLoading = true;
-
         $array = explode('/', $path);
 
         $filename = end($array);
@@ -85,7 +81,5 @@ class ViewComparison extends ViewRecord
         $this->brand['farmer_phone'] = $search->farmer_phone;
 
         $this->dispatch('open-modal', id: 'brand-details');
-
-        $this->isLoading = false;
     }
 }

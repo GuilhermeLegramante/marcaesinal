@@ -37,29 +37,27 @@
             Detalhes da Marca
         </x-slot>
 
-        @if ($this->isLoading)
-        @else
-            <div class="flex justify-center items-center h-full">
-                <img src="{{ isset($this->brand['path']) ? $this->brand['path'] : '' }}" class="max-w-full h-auto">
-            </div>
 
-            <div class="flex justify-center w-full">
-                <strong>
-                    {{ isset($this->brand['number']) ? $this->brand['number'] : '' }} /
-                    {{ isset($this->brand['year']) ? $this->brand['year'] : '' }} -
-                    {{ isset($this->brand['farmer_name']) ? $this->brand['farmer_name'] : '' }}
-                </strong>
-            </div>
-            <div class="flex justify-center w-full">
-                <strong>
-                    {{ isset($this->brand['farmer_phone']) ? $this->brand['farmer_phone'] : '' }}
-                </strong>
-            </div>
-            <div class="flex justify-center w-full">
-                <strong>
-                    {{ isset($this->brand['client_name']) ? $this->brand['client_name'] : '' }}
-                </strong>
-        @endif
+        <div class="flex justify-center items-center h-full">
+            <img src="{{ isset($this->brand['path']) ? $this->brand['path'] : '' }}" class="max-w-full h-auto">
+        </div>
+
+        <div class="flex justify-center w-full">
+            <strong>
+                {{ isset($this->brand['number']) ? $this->brand['number'] : '' }} /
+                {{ isset($this->brand['year']) ? $this->brand['year'] : '' }} -
+                {{ isset($this->brand['farmer_name']) ? $this->brand['farmer_name'] : '' }}
+            </strong>
+        </div>
+        <div class="flex justify-center w-full">
+            <strong>
+                {{ isset($this->brand['farmer_phone']) ? $this->brand['farmer_phone'] : '' }}
+            </strong>
+        </div>
+        <div class="flex justify-center w-full">
+            <strong>
+                {{ isset($this->brand['client_name']) ? $this->brand['client_name'] : '' }}
+            </strong>
         </div>
     </x-filament::modal>
 </x-dynamic-component>
