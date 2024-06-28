@@ -1,11 +1,11 @@
 <x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
+    <div wire:loading.remove x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
 
         <div class="container mx-auto px-4 py-8">
             <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach ($this->images as $item)
                     <div class="image-container flex flex-col items-center">
-                        <div wire:click="teste('{{ $item }}')" class="cursor-pointer">
+                        <div wire:click="showDetails('{{ $item }}')" class="cursor-pointer">
                             <img src="{{ $item }}" class="w-full h-auto">
                         </div>
                     </div>
@@ -28,19 +28,38 @@
         </div>
     </div>
 
+    <div wire:loading class="flex justify-center items-center h-full">
+        <x-filament::loading-indicator class="h-5 w-5" />
+    </div>
+
     <x-filament::modal id="brand-details" width="md">
         <x-slot name="heading">
             Detalhes da Marca
         </x-slot>
 
-        <div class="flex justify-center items-center h-full">
-            <img src="{{ isset($this->brand['path']) ? $this->brand['path'] : '' }}" class="max-w-full h-auto">
-        </div>
+        @if ($this->isLoading)
+        @else
+            <div class="flex justify-center items-center h-full">
+                <img src="{{ isset($this->brand['path']) ? $this->brand['path'] : '' }}" class="max-w-full h-auto">
+            </div>
 
-        <div class="flex justify-center w-full">
-            <strong>{{ isset($this->brand['number']) ? $this->brand['number'] : '' }} /
-                {{ isset($this->brand['year']) ? $this->brand['year'] : '' }} -
-                {{ isset($this->brand['farmer_name']) ? $this->brand['farmer_name'] : '' }}</strong>
+            <div class="flex justify-center w-full">
+                <strong>
+                    {{ isset($this->brand['number']) ? $this->brand['number'] : '' }} /
+                    {{ isset($this->brand['year']) ? $this->brand['year'] : '' }} -
+                    {{ isset($this->brand['farmer_name']) ? $this->brand['farmer_name'] : '' }}
+                </strong>
+            </div>
+            <div class="flex justify-center w-full">
+                <strong>
+                    {{ isset($this->brand['farmer_phone']) ? $this->brand['farmer_phone'] : '' }}
+                </strong>
+            </div>
+            <div class="flex justify-center w-full">
+                <strong>
+                    {{ isset($this->brand['client_name']) ? $this->brand['client_name'] : '' }}
+                </strong>
+        @endif
         </div>
     </x-filament::modal>
 </x-dynamic-component>

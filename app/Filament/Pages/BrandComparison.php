@@ -8,6 +8,7 @@ use Exception;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
@@ -18,7 +19,7 @@ use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 class BrandComparison extends Page
 {
     use HasPageShield;
-    
+
     protected static ?string $navigationIcon = 'heroicon-o-document-magnifying-glass';
 
     protected static string $view = 'filament.pages.brand-comparison';
@@ -57,6 +58,10 @@ class BrandComparison extends Page
                     ])
                     ->description('Envie um arquivo OU desenho para ser verificado')
                     ->schema([
+                        Toggle::make('is_general')
+                            ->label('Busca Geral')
+                            ->default(false)
+                            ->inline(false),
                         FileUpload::make('file')
                             ->label('Arquivo')
                             ->columnSpanFull()
@@ -111,12 +116,18 @@ class BrandComparison extends Page
 
             $url = Storage::disk('s3')->url($path);
 
-            Http::withHeaders([
-                'Accept' => 'application/json',
-            ])->post(env('QUEUE_URL'), [
+            $params = [
                 'imagePath' => $url,
                 'clientCode' => env('CLIENT_IDENTIFIER'),
-            ]);
+            ];
+
+            if ($data['is_general'] == true) {
+                $params['generalSearch'] = true;
+            }
+
+            Http::withHeaders([
+                'Accept' => 'application/json',
+            ])->post(env('QUEUE_URL'), $params);
 
             Notification::make()
                 ->title('Sucesso!')
@@ -126,7 +137,6 @@ class BrandComparison extends Page
 
             return redirect()->route('filament.admin.resources.busca-inteligente.index');
         } catch (Exception $e) {
-            dd($e->getMessage());
             Notification::make()
                 ->title('Erro ao enviar a imagem!')
                 ->body($e->getMessage())

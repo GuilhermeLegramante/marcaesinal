@@ -20,6 +20,8 @@ class ViewComparison extends ViewRecord
 
     public $brand = [];
 
+    public $isLoading = false;
+
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $json = file_get_contents($data['resultado']);
@@ -65,8 +67,10 @@ class ViewComparison extends ViewRecord
         }
     }
 
-    public function teste($path)
+    public function showDetails($path)
     {
+        $this->isLoading = true;
+
         $array = explode('/', $path);
 
         $filename = end($array);
@@ -77,7 +81,11 @@ class ViewComparison extends ViewRecord
         $this->brand['year'] = $search->year;
         $this->brand['path'] = $search->path;
         $this->brand['farmer_name'] = $search->farmer_name;
+        $this->brand['client_name'] = $search->client_name;
+        $this->brand['farmer_phone'] = $search->farmer_phone;
 
         $this->dispatch('open-modal', id: 'brand-details');
+
+        $this->isLoading = false;
     }
 }

@@ -68,6 +68,9 @@ class ComparisonResource extends Resource
                 Tables\Columns\IconColumn::make('finalizada')
                     ->alignCenter()
                     ->boolean(),
+                Tables\Columns\IconColumn::make('geral')
+                    ->alignCenter()
+                    ->boolean(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
